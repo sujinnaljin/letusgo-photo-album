@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 final class ListViewController: UIViewController {
 
@@ -40,6 +41,8 @@ final class ListViewController: UIViewController {
         picker.delegate = self
         return picker
     }()
+    
+    private let decoder = JSONDecoder()
 
     private var list: [Photo] = [] {
         didSet {
@@ -51,8 +54,20 @@ final class ListViewController: UIViewController {
         list = []
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
+       
 
         // TODO: Implement to request listing API
+        Alamofire
+            .request("http://letusgo-summer-19.kawoou.kr/photo", method: .get)
+            .responseData { (response) in
+                guard let data = response.data else {
+                    return
+                }
+                let list = (try? self.decoder.decode(PhotoResponse.self, from: data).list) ?? []
+                self.list = list
+                self.activityIndicator.stopAnimating()
+        }
+        
     }
 
     private func setupConstraints() {
@@ -164,6 +179,19 @@ extension ListViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
             // TODO: Implement to request uploading API
+            Alamofire.upload(multipartFormData: { (multipart) in
+                multipart.append(url, withName: "image")
+            }, to: "http://letusgo-summer-19.kawoou.kr/photo") { [weak self] (result) in
+                switch result {
+                case .success(request: let requset, streamingFromDisk: _, streamFileURL: _):
+                    requset.response { (response) in
+                        guard response.error == nil else {return}
+                        self?.request()
+                    }
+                case .failure:
+                    break
+                }
+            }
         }
 
         dismiss(animated: true, completion: nil)
