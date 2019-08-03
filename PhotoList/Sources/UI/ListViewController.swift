@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Alamofire
+import Moya
 
 final class ListViewController: UIViewController {
 
@@ -33,6 +33,8 @@ final class ListViewController: UIViewController {
         view.tintColor = .darkGray
         return view
     }()
+    
+    let provider = MoyaProvider<PhotoApi>()
 
     // MARK: - Private
 
@@ -54,18 +56,17 @@ final class ListViewController: UIViewController {
         list = []
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-       
 
         // TODO: Implement to request listing API
-        Alamofire
-            .request("http://letusgo-summer-19.kawoou.kr/photo", method: .get)
-            .responseData { (response) in
-                guard let data = response.data else {
-                    return
-                }
-                let list = (try? self.decoder.decode(PhotoResponse.self, from: data).list) ?? []
-                self.list = list
-                self.activityIndicator.stopAnimating()
+        provider.request(.list) { [weak self] (request) in
+            switch request {
+            case .success(let value):
+                let list = try? self?.decoder.decode(PhotoResponse.self, from: value.data).list
+                self?.list = list ?? []
+                self?.activityIndicator.stopAnimating()
+            case .failure:
+                break
+            }
         }
         
     }
@@ -179,15 +180,10 @@ extension ListViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
             // TODO: Implement to request uploading API
-            Alamofire.upload(multipartFormData: { (multipart) in
-                multipart.append(url, withName: "image")
-            }, to: "http://letusgo-summer-19.kawoou.kr/photo") { [weak self] (result) in
+            provider.request(.upload(url: url)) { [weak self] (result) in
                 switch result {
-                case .success(request: let requset, streamingFromDisk: _, streamFileURL: _):
-                    requset.response { (response) in
-                        guard response.error == nil else {return}
-                        self?.request()
-                    }
+                case .success:
+                    self?.request()
                 case .failure:
                     break
                 }

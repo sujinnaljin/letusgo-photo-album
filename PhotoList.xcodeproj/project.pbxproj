@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B28303622F5478200ABBD5D /* PhotoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28303522F5478200ABBD5D /* PhotoAPI.swift */; };
 		8CB35A8565FA27B0D16FEA70 /* Pods_PhotoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B32C56AC6F75D34D8DB537B /* Pods_PhotoList.framework */; };
 		9DD87DB122EF3FE20090AAFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD87DB022EF3FE20090AAFE /* AppDelegate.swift */; };
 		9DD87DB822EF3FE30090AAFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DD87DB722EF3FE30090AAFE /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		2B32C56AC6F75D34D8DB537B /* Pods_PhotoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B28303522F5478200ABBD5D /* PhotoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAPI.swift; sourceTree = "<group>"; };
 		8FC8D352D93979A0BEF75DF7 /* Pods-PhotoListTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoListTests.debug.xcconfig"; path = "Target Support Files/Pods-PhotoListTests/Pods-PhotoListTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9DD87DAD22EF3FE20090AAFE /* PhotoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DD87DB022EF3FE20090AAFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B28303422F5477000ABBD5D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3B28303522F5478200ABBD5D /* PhotoAPI.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		3B58CA73701C1FD54B570A26 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +142,7 @@
 		9DD87DD022EF3FEA0090AAFE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3B28303422F5477000ABBD5D /* Network */,
 				9DD87DD922EF418F0090AAFE /* Model */,
 				9DD87DD522EF40260090AAFE /* UI */,
 				9DD87DB022EF3FE20090AAFE /* AppDelegate.swift */,
@@ -370,6 +381,7 @@
 				9DD87DE322EF47740090AAFE /* PhotoResponse.swift in Sources */,
 				9DD87DB122EF3FE20090AAFE /* AppDelegate.swift in Sources */,
 				9DD87DD822EF41090090AAFE /* ListViewController.swift in Sources */,
+				3B28303622F5478200ABBD5D /* PhotoAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
